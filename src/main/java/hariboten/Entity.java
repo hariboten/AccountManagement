@@ -1,0 +1,4 @@
+package hariboten;
+
+interface Entity {
+}

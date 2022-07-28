@@ -1,0 +1,5 @@
+package hariboten;
+
+class Role {
+
+}
