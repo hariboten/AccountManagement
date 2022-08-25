@@ -48,6 +48,11 @@ class RoleTest {
 		group1.add(user2);
 		group1.add(group3);
 
-		assertEquals(expected, role.getNameTree());
+		var visitor = new JsonVisitor();
+		role.accept(visitor);
+		System.err.println(visitor.build().toString());
+		var nameTreeVisitor = new NameTreeVisitor();
+		role.accept(nameTreeVisitor);
+		assertEquals(expected, nameTreeVisitor.toString());
 	}
 }

@@ -14,13 +14,19 @@ class Role {
 		entities.add(toAdd);
 	}
 
+	public List<Entity> getChildren(){
+		return entities;
+	}
+
     public String getNameTree() {
-		return entities.stream()
-			.map((entitiy) -> entitiy.getNameTree(0))
-			.collect(StringBuilder::new,
-					StringBuilder::append,
-					StringBuilder::append)
-			.toString();
+		var visitor = new NameTreeVisitor();
+		entities.forEach((child) -> {
+			child.accept(visitor);
+		});
+		return visitor.toString();
     }
-	
+
+	public void accept(EntityVisitor visitor) {
+		visitor.visit(this);
+	}
 }
