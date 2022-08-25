@@ -9,14 +9,19 @@ class User implements Entity {
 		this.name = name;
 	}
 
-    public String getNameTree(int depth) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < depth; i++) {
-			builder.append("  ");
-		}
-		builder.append("user: ")
+	private static StringBuilder indent(final int depth) {
+		return IntStream.range(0, depth)
+			.mapToObj((i) -> "  ")
+			.collect(StringBuilder::new,
+					StringBuilder::append,
+					StringBuilder::append);
+	}
+
+    public String getNameTree(final int depth) {
+		return indent(depth)
+			.append("user: ")
 			.append(name)
-			.append("\n");
-		return builder.toString();
+			.append("\n")
+			.toString();
     }
 }

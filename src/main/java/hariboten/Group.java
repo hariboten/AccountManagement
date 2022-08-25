@@ -2,6 +2,7 @@ package hariboten;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 class Group implements Entity{
 	private List<Entity> children;
@@ -16,19 +17,26 @@ class Group implements Entity{
 		children.add(toAdd);
 	}
 
+	private static StringBuilder indent(final int depth) {
+		return IntStream.range(0, depth)
+			.mapToObj((i) -> "  ")
+			.collect(StringBuilder::new,
+					StringBuilder::append,
+					StringBuilder::append);
+	}
+
+
     public String getNameTree(int depth) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < depth; i++) {
-			builder.append("  ");
-		}
-		builder.append("group: ")
+		StringBuilder groupName = indent(depth)
+			.append("group: ")
 			.append(name)
 			.append("\n");
-		for (Entity child : children) {
-			builder
-				.append(child.getNameTree(depth + 1));
-		}
-		return builder.toString();
-    }
 
+		return children.stream()
+			.map((child) -> child.getNameTree(depth + 1))
+			.collect(() -> {return groupName;},
+					StringBuilder::append,
+					StringBuilder::append)
+			.toString();
+	}
 }

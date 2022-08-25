@@ -15,12 +15,12 @@ class Role {
 	}
 
     public String getNameTree() {
-		StringBuilder builder = new StringBuilder();
-		for (Entity child : entities) {
-			builder
-				.append(child.getNameTree(0));
-		}
-		return builder.toString();
+		return entities.stream()
+			.map((entitiy) -> entitiy.getNameTree(0))
+			.collect(StringBuilder::new,
+					StringBuilder::append,
+					StringBuilder::append)
+			.toString();
     }
 	
 }
